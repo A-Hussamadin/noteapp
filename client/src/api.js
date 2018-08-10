@@ -27,13 +27,17 @@ export const sigup_API = (credentials) => {
     });
 
     //console.log(data);
-    axios.post('http://localhost:8080/users/', data, {
+    return axios.post('http://localhost:8080/users/', data, {
         headers: {
             'Content-Type': 'application/json',
         }
-    }).then((user) => {
+    }).then((response) => {
 
-        user;
+        return {
+            _id: response.data._id,
+            email: response.data.email,
+            token: response.headers['x-auth']
+        }
     })
 }
 
