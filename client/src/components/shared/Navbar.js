@@ -1,14 +1,26 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
     Menu,
 } from 'semantic-ui-react'
 import {
     withRouter
 } from 'react-router-dom'
-
+import { connect } from 'react-redux';
+import { logout } from '../../actions/auth';
 class Navbar extends Component {
-    state = { isAuth: false }
-    handleItemClick = (e, { name }) => { this.props.history.push(`/${name}`) }
+    //  state = { isAuth: false }
+    handleItemClick = (e, { name }) => {
+
+        if (name === 'logout') {
+            this.props.logout();
+            this.props.history.push("/");
+
+        } else {
+            this.props.history.push(`/${name}`)
+        }
+
+    }
     render() {
         return (
             <div>
@@ -18,7 +30,7 @@ class Navbar extends Component {
                         </Menu.Item>
 
 
-                    {!this.state.isAuth
+                    {!this.props.isAuthenticated
                         ?
                         <Menu.Menu position='right'>
                             <Menu.Item
@@ -44,4 +56,15 @@ class Navbar extends Component {
     }
 }
 
-export default withRouter(Navbar);
+Navbar.prototypes = {
+    isAuthenticated: PropTypes.bool.isRequired
+}
+function mapStateToProps(state) {
+    return {
+        isAuthenticated: !!state.user.token
+    }
+}
+
+
+
+export default withRouter(connect(mapStateToProps, { logout })(Navbar));

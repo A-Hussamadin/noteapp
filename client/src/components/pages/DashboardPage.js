@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-
+import Navbar from '../shared/Navbar';
 class DashboardPage extends Component {
     render() {
         return (
             <div>
-                <h1>Dashboard Page</h1>
+                <Navbar />
             </div>
         );
     }
