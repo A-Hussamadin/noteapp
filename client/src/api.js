@@ -41,4 +41,25 @@ export const sigup_API = (credentials) => {
     })
 }
 
+export const fetch_notes_API = (user) => {
+    const token = user.token;
+    console.log(token);
+    // let data = JSON.stringify({
+    //     _id: user._id,
+    //     email: user.email
+    // });
+
+    return axios.get('http://localhost:8080/notes/', {
+        headers: {
+            "x-auth": token
+        }
+    }).then((response) => {
+
+        return {
+            notes: response.data.notes
+        }
+    })
+}
+
+
 

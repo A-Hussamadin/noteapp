@@ -12,11 +12,12 @@ const app = express();
 
 const corsOptions = {
     origin: 'http://localhost:3000',
-    allowedHeaders: ['Accept-Version', 'Authorization', 'Credentials', 'Content-Type'],
+    allowedHeaders: ['Accept-Version', 'Authorization', 'Credentials', 'Content-Type', 'Access-Control-Allow-Headers', 'x-auth'],
     exposedHeaders: ['x-auth'],
 }
 app.use(cors(corsOptions))
 app.use(bodyParser.json());
+
 
 
 app.use('/users', userRoute);
