@@ -12,7 +12,7 @@ class NotesList extends Component {
     renderNotes = () => {
 
         if (this.state.notes.length === 0) {
-            console.log("Result is 0");
+
             return (<Card style={{ marginTop: '1em' }}>
                 <Card.Content>
                     <Card.Header>No Notes Found</Card.Header>
@@ -45,10 +45,12 @@ class NotesList extends Component {
         } else {
 
             const re = new RegExp(_.escapeRegExp(props.searchTerm), 'i')
-            const isMatch = result => re.test(result.title)
+            const isMatch = result => {
+                return re.test(result.title) || re.test(result.text)
+            }
 
             this.setState({
-                notes: _.filter(this.state.notes, isMatch),
+                notes: _.filter(this.props.notes.notes, isMatch),
             })
 
         }
