@@ -2,7 +2,9 @@ import { combineReducers } from 'C:/Users/lenovo-com/AppData/Local/Microsoft/Typ
 import user from './reducers/user';
 import notes from './reducers/notes';
 
-export default combineReducers({
+const rootReducer = combineReducers({
     user,
     notes
 })
+
+export default rootReducer;

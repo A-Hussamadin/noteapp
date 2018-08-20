@@ -3,12 +3,17 @@ import { connect } from 'react-redux';
 import Note from './Note';
 import { Card } from 'semantic-ui-react';
 import _ from 'lodash';
+import { deleteNote } from '../../actions/note';
 class NotesList extends Component {
     state = {
         searchTerm: '',
         notes: []
     }
-    resetComponent = () => this.setState({ notes: this.props.notes.notes, searchTerm: '' })
+
+    onDeleteNote = (noteId) => {
+        this.props.deleteNote(this.props.user, noteId);
+    }
+    resetComponent = () => this.setState({ searchTerm: '' })
     renderNotes = () => {
 
         if (this.state.notes.length === 0) {
@@ -21,22 +26,21 @@ class NotesList extends Component {
             </Card>);
         } else {
             return this.state.notes.map((note) => {
-                return <li key={note._id}><Note note={note} /></li>
+                return <li key={note._id}><Note note={note} onDeleteNote={this.onDeleteNote} /></li>
             })
 
         }
-
-        // console.log(this.props.notes)
-        // this.props.notes.notes.map((note) => {
-        //     console.log(note);
-        // })
     }
     componentDidMount() {
-        this.setState({ notes: this.props.notes.notes })
+        this.setState({ notes: this.props.notes })
     }
+
+
     componentWillReceiveProps(props) {
+
         this.setState({
             searchTerm: props.searchTerm,
+            notes: props.notes
         });
 
         if (props.searchTerm.trim() == "") {
@@ -50,13 +54,12 @@ class NotesList extends Component {
             }
 
             this.setState({
-                notes: _.filter(this.props.notes.notes, isMatch),
+                notes: _.filter(this.props.notes, isMatch),
             })
 
         }
     }
     render() {
-        //console.log("noteslist ", this.props.searchTerm);
 
         return (
             <div>
@@ -68,8 +71,10 @@ class NotesList extends Component {
     }
 }
 function mapStateToProps(state) {
+
     return {
-        notes: state.notes,
+        user: state.user,
+        notes: state.notes
     };
 }
-export default connect(mapStateToProps)(NotesList);
+export default connect(mapStateToProps, { deleteNote })(NotesList);

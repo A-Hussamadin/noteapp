@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router();
 const _ = require('lodash');
+const { ObjectID } = require('mongodb');
 
 var { Note } = require('./../models/note');
 var { authenticate } = require('./../middleware/authenticate');
@@ -24,7 +25,7 @@ router.get('/', authenticate, (req, res) => {
     Note.find({
         _creator: req.user._id
     }).then((notes) => {
-        res.send({ notes });
+        res.send(notes);
     }, (e) => {
         res.status(400).send(e);
     });
@@ -45,7 +46,7 @@ router.get('/:id', authenticate, (req, res) => {
             return res.status(404).send();
         }
 
-        res.send({ note });
+        res.send(note);
     }).catch((e) => {
         res.status(400).send();
     });
@@ -66,7 +67,7 @@ router.delete('/:id', authenticate, (req, res) => {
             return res.status(404).send();
         }
 
-        res.send({ note });
+        res.send(note);
     }).catch((e) => {
         res.status(400).send();
     });
@@ -92,7 +93,7 @@ router.patch('/:id', authenticate, (req, res) => {
             return res.status(404).send();
         }
 
-        res.send({ note });
+        res.send(note);
     }).catch((e) => {
         res.status(400).send();
     })

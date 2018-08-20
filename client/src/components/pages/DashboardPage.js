@@ -22,8 +22,11 @@ class DashboardPage extends Component {
 
 
     }
+
+    onAddNote = () => {
+        this.props.history.push("/addNote")
+    }
     render() {
-        //   console.log(this.state.searchTerm)
         if (this.state.isLoading) {
             return (
                 <div>
@@ -50,7 +53,13 @@ class DashboardPage extends Component {
                                 />
                             </Grid.Column>
                             <Grid.Column floated='right' width={3}>
-                                <Button color="green" content='Add Note' icon='add' labelPosition='right' />
+                                <Button
+                                    color="green"
+                                    content='Add Note'
+                                    icon='add'
+                                    labelPosition='right'
+                                    onClick={this.onAddNote}
+                                />
                             </Grid.Column>
                         </Grid>
                         <Divider />
@@ -72,7 +81,6 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
     return {
         user: state.user,
-        notes: state.notes
     };
 }
 

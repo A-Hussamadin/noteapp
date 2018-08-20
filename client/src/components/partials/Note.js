@@ -8,7 +8,7 @@ class Note extends Component {
         console.log("Edit clicked");
     }
     onDeleteClick = () => {
-        console.log("Delete clicked");
+        this.props.onDeleteNote(this.props.note._id);
     }
     render() {
         const note = this.props.note;
