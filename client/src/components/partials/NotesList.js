@@ -43,7 +43,7 @@ class NotesList extends Component {
             notes: props.notes
         });
 
-        if (props.searchTerm.trim() == "") {
+        if (props.searchTerm.trim() === "") {
 
             return this.resetComponent()
         } else {

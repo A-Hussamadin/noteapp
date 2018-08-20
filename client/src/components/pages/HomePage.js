@@ -12,9 +12,9 @@ class HomePage extends Component {
                 <Navbar />
                 <Container text style={{ marginTop: '7em' }}>
                     <Header color='teal' as='h1'>Welcome to NoteApp</Header>
-                    <p>This is a basic fixed menu template using fixed size containers.</p>
+                    <p>This is a cross devices Note APP.</p>
                     <p>
-                        A text container is used for the main container, which is useful for single column layouts.
+                        Where you can add edit your notes from web and mobile.
                     </p>
                 </Container>
             </div>

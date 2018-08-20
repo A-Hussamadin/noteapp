@@ -4,12 +4,13 @@ import { Grid, Form, Container, TextArea, Button, Header, Divider, Input } from 
 
 import '../../styles/style.css';
 import { connect } from 'react-redux';
-import { addNote } from '../../actions/note'
+import { addNote, getNote, updateNote } from '../../actions/note'
 class AddNote extends Component {
 
     state = {
         title: '',
-        text: ''
+        text: '',
+        disabled: true,
     }
 
     onAddNote = () => {
@@ -17,17 +18,50 @@ class AddNote extends Component {
             title: this.state.title,
             text: this.state.text
         }
+        if (this.props.match.params.id) {
+            //call update 
+            note._id = this.props.match.params.id;
+            this.props.updateNote(this.props.user, note).then(() => this.props.history.push("/dashboard"))
+        } else {
+            this.props.addNote(this.props.user, note).then(() => this.props.history.push("/dashboard"))
+        }
 
-        this.props.addNote(this.props.user, note).then(() => this.props.history.push("/dashboard"))
+    }
+    onCancel = () => {
+        this.props.history.push("/dashboard");
     }
     onTextChange = (e, { value }) => {
 
-        this.setState({ text: value })
+        this.setState({
+            text: value,
+            disabled: false
+        })
     }
     onTitleChange = (e, { value }) => {
 
-        this.setState({ title: value })
+        this.setState({ title: value, disabled: false })
     }
+
+    componentDidMount() {
+
+        if (this.props.match.path === "/edit/:id") {
+
+
+            this.props.getNote(this.props.user, this.props.match.params.id).then(() => {
+
+
+                this.setState({
+                    title: this.props.note.title,
+                    text: this.props.note.text,
+
+                })
+
+
+            })
+        }
+    }
+
+
     render() {
 
 
@@ -37,19 +71,37 @@ class AddNote extends Component {
 
                 <Container style={{ marginTop: '5em' }}>
                     <Grid >
-                        <Grid.Column width={13}>
-                            <Header as='h1'>
-                                Add New Note
-                                </Header>
+                        <Grid.Column width={10}>
+                            {this.props.match.params.id
+                                ? <Header color='teal' as='h1'>
+                                    Edite Note
+                        </Header>
+                                :
+                                <Header color='teal' as='h1'>
+                                    Add Note
+                        </Header>
+                            }
+
                         </Grid.Column>
-                        <Grid.Column floated='right' width={3}>
+                        <Grid.Column floated='right' width={6}>
                             <Button
                                 color="green"
                                 content='Save'
                                 icon='save'
                                 labelPosition='right'
+                                {...this.state}
+                                floated='right'
                                 onClick={this.onAddNote}
                             />
+                            <Button
+                                color="red"
+                                content='Cancel'
+                                icon='cancel'
+                                labelPosition='right'
+                                floated='right'
+                                onClick={this.onCancel}
+                            />
+
                         </Grid.Column>
                     </Grid>
                     <Divider />
@@ -76,11 +128,20 @@ class AddNote extends Component {
         );
     }
 }
-function mapStateToProps(state) {
-    return {
-        user: state.user,
-    };
+function mapStateToProps(state, ownProps) {
+    if (ownProps.match.params.id) {
+        return {
+            user: state.user,
+            note: state.notes[0]
+        };
+
+    } else {
+        return {
+            user: state.user,
+        };
+    }
+
 }
 
 
-export default connect(mapStateToProps, { addNote })(AddNote);
+export default connect(mapStateToProps, { addNote, getNote, updateNote })(AddNote);

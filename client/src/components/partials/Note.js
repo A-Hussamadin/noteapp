@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { Card, Button, Icon } from 'semantic-ui-react';
-
+import {
+    withRouter
+} from 'react-router-dom'
 
 class Note extends Component {
 
     onEditClick = () => {
-        console.log("Edit clicked");
+        this.props.history.push(`/edit/${this.props.note._id}`);
     }
     onDeleteClick = () => {
         this.props.onDeleteNote(this.props.note._id);
@@ -40,4 +42,4 @@ class Note extends Component {
     }
 }
 
-export default Note;
+export default withRouter(Note);

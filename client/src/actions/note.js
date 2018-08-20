@@ -1,14 +1,11 @@
-import { FETCH_NOTES, SEARCH_NOTES, ADD_NOTE, DELETE_NOTE } from '../types';
-import { fetch_notes_API, add_note_API, delete_note_API } from '../api';
+import { FETCH_NOTES, ADD_NOTE, DELETE_NOTE, GET_NOTE, UPDATE_NOTE } from '../types';
+import { fetch_notes_API, add_note_API, delete_note_API, get_note_API, update_note_API } from '../api';
 export const fetchNotesAction = (notes) => ({
     type: FETCH_NOTES,
     notes
 });
 
-export const searchNotesAction = (value) => ({
-    type: SEARCH_NOTES,
-    value
-})
+
 
 export const addNoteAction = (note) => ({
     type: ADD_NOTE,
@@ -17,6 +14,16 @@ export const addNoteAction = (note) => ({
 
 export const deleteNoteAction = (note) => ({
     type: DELETE_NOTE,
+    note
+})
+
+export const getNoteAction = (note) => ({
+    type: GET_NOTE,
+    note
+})
+
+export const updateNoteAction = (note) => ({
+    type: UPDATE_NOTE,
     note
 })
 
@@ -48,3 +55,20 @@ export function deleteNote(user, noteId) {
     }
 }
 
+export function getNote(user, noteId) {
+
+    return function (dispatch) {
+        return get_note_API(user, noteId).then((note) => {
+
+            dispatch(getNoteAction(note));
+        });
+    }
+}
+
+export function updateNote(user, noteId) {
+    return function (dispatch) {
+        return update_note_API(user, noteId).then((note) => {
+            dispatch(updateNoteAction(note));
+        });
+    }
+}

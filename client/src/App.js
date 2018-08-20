@@ -18,6 +18,7 @@ const App = ({ location }) => (<div className="ui container">
   <GuestRoute path="/signup" exact location={location} component={SignupPage} />
   <UserRoute path="/dashboard" exact location={location} component={DashboardPage} />
   <UserRoute path="/addNote" exact location={location} component={AddNote} />
+  <UserRoute path="/edit/:id" exact location={location} component={AddNote} />
 </div>)
 
 App.prototypes = {

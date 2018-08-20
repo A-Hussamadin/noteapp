@@ -41,7 +41,7 @@ class DashboardPage extends Component {
                     <Container style={{ marginTop: '5em' }}>
                         <Grid >
                             <Grid.Column width={9}>
-                                <Header as='h1'>
+                                <Header color='teal' as='h1'>
                                     Welcome to Note App
                                 </Header>
                             </Grid.Column>
